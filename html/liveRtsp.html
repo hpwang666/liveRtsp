@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Streamedian HTML5 RTSP player</title>
+    <style>
+        body {
+            
+        }
+
+		
+		.video_panel{
+			 max-width: 720px;
+			 width:100%;
+			
+		}
+		
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        input.input, .form-inline .input-group>.form-control {
+            width: 100px;
+        }
+
+	button {
+	    margin: 10px
+	}
+    </style>
+</head>
+<body>
+
+
+<div>
+    <input id="stream_url" size="36">
+    <button id="set_new_url" onclick = "set_url(new_url)">Set</button>
+	
+</div>
+
+
+
+<div>
+<p style="color:#808080">Enter your rtsp link to the stream, for example: rtsp://admin:fhjt12345@172.16.10.43:554/h264/ch1/main/av_stream</p>
+</div>
+
+<table id="div_1">
+ <tr>
+	<td><video class = "video_panel" id="test_video"  onclick = "get_url(this.id)"  controls autoplay></video></td>
+ </tr>
+ 
+</table>
+<script src="free.player.1.8.js"></script> <!-- Path to pleer js-->
+<script>
+	var new_url = " ";
+	var current_id = "test_video";
+	
+	function getIp(){
+		//获取当前网址，如： http://localhost:8080/Tmall/index.jsp 
+		var curWwwPath = window.document.location.href; 
+		//获取主机地址之后的目录如：/Tmall/index.jsp 
+		var pathName = window.document.location.pathname; 
+
+		var pos = curWwwPath.indexOf(pathName); 
+
+		//获取主机地址，如： http://localhost:8080 
+		var localhostPaht=curWwwPath.substring(7,pos); 
+		var ip = localhostPaht.substring(0);
+		return ip;
+    }
+
+	function set_url(url)
+	{
+		var text = document.getElementById('stream_url').value;
+		var ip = "ws://"+getIp()+"/ws";
+	    url = text;
+		document.getElementById(current_id).src = url;
+		Streamedian.player(current_id, {socket:ip});
+		//var player = document.getElementById('test_video');
+	}
+	
+	function get_url(id)
+	{
+		current_id = id;
+	}
+	
+</script>
+</body>
+</html>
+
